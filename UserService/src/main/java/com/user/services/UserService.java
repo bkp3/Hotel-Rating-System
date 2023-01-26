@@ -1,8 +1,8 @@
-package com.user.service.services;
+package com.user.services;
 
 import java.util.List;
 
-import com.user.service.entities.User;
+import com.user.entities.User;
 
 public interface UserService {
 

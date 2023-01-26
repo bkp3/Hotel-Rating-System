@@ -1,4 +1,4 @@
-package com.user.service.controllers;
+package com.user.controllers;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.user.service.entities.User;
-import com.user.service.services.UserService;
+import com.user.entities.User;
+import com.user.services.UserService;
 
 @RestController
 @RequestMapping("/users")

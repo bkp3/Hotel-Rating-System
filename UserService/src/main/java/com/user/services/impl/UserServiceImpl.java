@@ -1,4 +1,4 @@
-package com.user.service.services.impl;
+package com.user.services.impl;
 
 import java.util.List;
 import java.util.UUID;
@@ -6,10 +6,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.user.service.entities.User;
-import com.user.service.exceptions.ResourceNotFoundException;
-import com.user.service.repository.UserRepository;
-import com.user.service.services.UserService;
+import com.user.entities.User;
+import com.user.exceptions.ResourceNotFoundException;
+import com.user.repository.UserRepository;
+import com.user.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
