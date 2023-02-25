@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 				() -> new ResourceNotFoundException("User with ID: " + userId + " is not found on server!!"));
 
 		// fetching ratings of the above user from RATING-SERVICE
-		Rating[] ratingOfUser = restTemplate.getForObject("http://localhost:8083/ratings/users/" + user.getUserId(),
+		Rating[] ratingOfUser = restTemplate.getForObject("http://RATING-SERVICE/ratings/users/" + user.getUserId(),
 				Rating[].class);
 
 		List<Rating> ratings = Arrays.stream(ratingOfUser).toList();
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
 		List<Rating> ratingList = ratings.stream().map(rating -> {
 			ResponseEntity<Hotel> forEntity = restTemplate
-					.getForEntity("http://localhost:8082/hotels/" + rating.getHotelId(), Hotel.class);
+					.getForEntity("http://HOTEL-SERVICE/hotels/" + rating.getHotelId(), Hotel.class);
 			Hotel hotel = forEntity.getBody();
 			logger.info("response status code : {}", forEntity.getStatusCode());
 			rating.setHotel(hotel);
