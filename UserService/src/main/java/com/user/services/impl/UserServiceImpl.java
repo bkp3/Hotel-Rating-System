@@ -1,15 +1,20 @@
 package com.user.services.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.user.entities.Hotel;
 import com.user.entities.Rating;
 import com.user.entities.User;
 import com.user.exceptions.ResourceNotFoundException;
@@ -46,11 +51,22 @@ public class UserServiceImpl implements UserService {
 				() -> new ResourceNotFoundException("User with ID: " + userId + " is not found on server!!"));
 
 		// fetching ratings of the above user from RATING-SERVICE
-		ArrayList<Rating> ratingOfUser = restTemplate
-				.getForObject("http://localhost:8083/ratings/users/" + user.getUserId(), ArrayList.class);
+		Rating[] ratingOfUser = restTemplate.getForObject("http://localhost:8083/ratings/users/" + user.getUserId(),
+				Rating[].class);
+
+		List<Rating> ratings = Arrays.stream(ratingOfUser).toList();
 
 		logger.info("{} ", ratingOfUser);
-		user.setRatings(ratingOfUser);
+
+		List<Rating> ratingList = ratings.stream().map(rating -> {
+			ResponseEntity<Hotel> forEntity = restTemplate
+					.getForEntity("http://localhost:8082/hotels/" + rating.getHotelId(), Hotel.class);
+			Hotel hotel = forEntity.getBody();
+			logger.info("response status code : {}", forEntity.getStatusCode());
+			rating.setHotel(hotel);
+			return rating;
+		}).collect(Collectors.toList());
+		user.setRatings(ratingList);
 		return user;
 	}
 
