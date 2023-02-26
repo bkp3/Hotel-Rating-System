@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import com.user.entities.Hotel;
+import com.user.external.services.HotelService;
+
 @Configuration
 public class MyConfig {
 
